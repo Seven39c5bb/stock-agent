@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --ink: #101418;
+  --ink-soft: #1a1f24;
+  --sand: #f3f1ea;
+  --saffron: #f0b53a;
+  --sea: #59b3b3;
+  --rose: #e26d5c;
+}
+
+body {
+  font-family: "Newsreader", serif;
+  background: radial-gradient(circle at top left, #243040 0%, #101418 55%, #0b0f12 100%);
+  color: var(--sand);
+  min-height: 100vh;
+}
+
+.bg-ink {
+  background-color: var(--ink);
+}
+
+.text-sand {
+  color: var(--sand);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+}
+
+.input-shell {
+  background: rgba(16, 20, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.markdown h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdown p,
+.markdown li {
+  line-height: 1.7;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: rise 0.6s ease-out both;
+}
