@@ -34,6 +34,15 @@
               {{ loading ? "分析中..." : "开始分析" }}
             </button>
           </div>
+          <div v-if="result" class="flex items-center gap-2 mt-2">
+            <span 
+              :class="result.mode === 'web_search' ? 'bg-sea/20 text-sea' : 'bg-sand/20 text-sand'" 
+              class="text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider border border-current"
+            >
+              {{ result.mode === 'web_search' ? '● 实时联网模式' : '○ 离线/兼容模式' }}
+            </span>
+            <span class="text-[10px] text-sand/40">已同步浏览器控制台日志</span>
+          </div>
           <p class="text-xs text-sand/60">
             数据非实时，仅供参考；结果不构成投资建议。
           </p>
@@ -124,8 +133,12 @@ const handleAnalyze = async () => {
       throw new Error(payload.detail || "分析失败");
     }
 
-    result.value = await response.json();
+    const data = await response.json();
+    console.log("[Stock Agent] 分析结果详情:", data);
+    console.log("[Stock Agent] 联网状态:", data.mode === 'web_search' ? "已确认使用实时联网工具" : "未使用联网工具(回退模式)");
+    result.value = data;
   } catch (err) {
+    console.error("[Stock Agent] 错误详情:", err);
     error.value = err.message || "分析失败";
   } finally {
     loading.value = false;

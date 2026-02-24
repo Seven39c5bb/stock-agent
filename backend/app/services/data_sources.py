@@ -21,6 +21,7 @@ class SpotInfo:
     change_pct: float
     volume: float
     industry: Optional[str]
+    mode: str = "web_search"
 
 
 _MARKET_CACHE: Dict[str, Dict[str, Any]] = {}
@@ -131,9 +132,14 @@ def _fetch_market_payload(query: str, days: int = 30) -> Dict[str, Any]:
 
     system_prompt = "你是金融数据助手。必须先联网搜索，再返回严格JSON。"
     user_prompt = _build_search_prompt(query=normalized, days=days)
-    raw = llm.chat(system_prompt, user_prompt)
+    
+    search_mode = "web_search"
+    try:
+        raw = llm.chat_with_web_search(system_prompt, user_prompt)
+    except RuntimeError as exc:
+        raise ValueError(f"联网模式调用失败：{exc}") from exc
     if not raw:
-        raise ValueError("大模型未返回数据")
+        raise ValueError("联网模式调用失败：当前模型或网关不支持 web_search_preview，请更换支持 Responses+Web Search 的模型/渠道")
 
     payload = json.loads(_extract_json_block(raw))
     if not isinstance(payload, dict):
@@ -176,6 +182,7 @@ def _fetch_market_payload(query: str, days: int = 30) -> Dict[str, Any]:
             "volume": volume,
         },
         "history_df": history_df,
+        "mode": search_mode
     }
 
     _MARKET_CACHE[cache_key] = normalized_payload
@@ -193,6 +200,7 @@ def get_spot_info(query: str) -> SpotInfo:
         change_pct=float(payload["spot"]["change_pct"]),
         volume=float(payload["spot"]["volume"]),
         industry=payload.get("industry"),
+        mode=payload.get("mode", "web_search")
     )
 
 

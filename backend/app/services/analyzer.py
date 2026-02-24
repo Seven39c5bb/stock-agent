@@ -111,6 +111,7 @@ def analyze_stock(query: str) -> Dict[str, Any]:
         "symbol": spot.symbol,
         "name": spot.name,
         "markdown": markdown,
+        "mode": spot.mode,
         "data": {
             "spot": {
                 "latest_price": spot.latest_price,

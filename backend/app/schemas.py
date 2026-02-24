@@ -11,4 +11,5 @@ class AnalysisResponse(BaseModel):
     symbol: str
     name: str
     markdown: str
+    mode: str = "legacy"
     data: Dict[str, Any]
