@@ -93,11 +93,11 @@ def analyze_stock(query: str) -> Dict[str, Any]:
     }
 
     llm = LLMClient(
-        base_url=settings.llm_base_url,
-        api_key=settings.llm_api_key,
-        model=settings.llm_model,
-        temperature=settings.llm_temperature,
-        timeout=settings.llm_timeout,
+        base_url=settings.analysis_llm_base_url,
+        api_key=settings.analysis_llm_api_key,
+        model=settings.analysis_llm_model,
+        temperature=settings.analysis_llm_temperature,
+        timeout=settings.analysis_llm_timeout,
     )
 
     system_prompt = "你是严谨的股票研究助理，禁止编造任何事实。"

@@ -121,11 +121,11 @@ def _fetch_market_payload(query: str, days: int = 30) -> Dict[str, Any]:
         return _MARKET_CACHE[cache_key]
 
     llm = LLMClient(
-        base_url=settings.llm_base_url,
-        api_key=settings.llm_api_key,
-        model=settings.llm_model,
-        temperature=0.0,
-        timeout=settings.llm_timeout,
+        base_url=settings.search_llm_base_url,
+        api_key=settings.search_llm_api_key,
+        model=settings.search_llm_model,
+        temperature=settings.search_llm_temperature,
+        timeout=settings.search_llm_timeout,
     )
     if not llm.is_enabled():
         raise ValueError("LLM_API_KEY 未配置，无法使用联网搜索取数")
